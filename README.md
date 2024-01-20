@@ -23,3 +23,9 @@
 * The loop points are not automated (will just replay the audio file on loop)
 * No adding slots to the game as this tool will just generate a mod to replace songs
 * For Sonic CD, the FMV cutscenes can't have their music replaced since the music is within the video file itself
+
+### Note about this tool
+* This tool is a combination of 3 other GitHub projects I've done, so if you'd like to see them individually here are the links
+  * Link to Sonic 1 Forever and Sonic 2 Absolute Music Mod Generator: https://github.com/mm696626/S1ForeverS2AbsoluteMusicModGenerator
+  * Link to Sonic CD Music Mod Generator: https://github.com/mm696626/SonicCDMusicModGenerator
+  * Link to Sonic 3 AIR  Music Mod Generator: https://github.com/mm696626/S3AIRMusicModGenerator
