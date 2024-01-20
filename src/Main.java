@@ -1,5 +1,5 @@
-// Sonic 1 Forever and Sonic 2 Absolute Music Mod Generator by Matt McCullough
-// This is to automate and streamline music mod creation for Sonic 1 Forever and Sonic 2 Absolute
+// Classic Sonic Music Mod Generator by Matt McCullough
+// This is to automate and streamline music mod creation for Sonic 1 Forever, Sonic 2 Absolute, Sonic CD (2011), Sonic 3 AIR, and Sonic Mania
 
 import gamechooserui.GameChooserUI;
 
