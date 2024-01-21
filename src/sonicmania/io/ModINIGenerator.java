@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 
 public class ModINIGenerator {
 
-    public void generateModJSON(String[] INIFieldNames, JTextField[] INIFieldNameFields)
+    public void generateModJSON(String[] INIFieldNames, JTextField[] INIFieldNameFields, boolean isDecomp)
     {
         PrintWriter outputStream = null;
 
@@ -33,6 +33,11 @@ public class ModINIGenerator {
             }
 
             outputStream.println(iniLine);
+        }
+
+        if (isDecomp) {
+            String decompINILine = "TargetVersion=5";
+            outputStream.println(decompINILine);
         }
 
         outputStream.close();

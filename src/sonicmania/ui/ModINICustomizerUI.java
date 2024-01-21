@@ -25,8 +25,15 @@ public class ModINICustomizerUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == saveModINI) {
+
+            boolean isDecomp = false;
+            int decompDialogResult = JOptionPane.showConfirmDialog(this, "Would you want your mod to be decomp compatible?");
+            if (decompDialogResult == JOptionPane.YES_OPTION){
+                isDecomp = true;
+            }
+
             ModINIGenerator modINIGenerator = new ModINIGenerator();
-            modINIGenerator.generateModJSON(INIFieldNames, iniFieldNameFields);
+            modINIGenerator.generateModJSON(INIFieldNames, iniFieldNameFields, isDecomp);
             setVisible(false);
         }
 
