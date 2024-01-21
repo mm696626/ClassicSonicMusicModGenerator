@@ -10,9 +10,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
 
-public class MusicModGeneratorUI extends JFrame implements ActionListener {
+public class Sonic1And2MusicModGeneratorUI extends JFrame implements ActionListener {
 
 
     //where to grab ogg files from
@@ -21,7 +23,7 @@ public class MusicModGeneratorUI extends JFrame implements ActionListener {
     private boolean isSonic1 = false;
     GridBagConstraints gridBagConstraints = null;
 
-    public MusicModGeneratorUI(boolean isSonic1)
+    public Sonic1And2MusicModGeneratorUI(boolean isSonic1)
     {
         this.isSonic1 = isSonic1;
 
@@ -118,6 +120,12 @@ public class MusicModGeneratorUI extends JFrame implements ActionListener {
                 try {
                     if (generateFolder) {
                         modFolderGenerator.generateModFolder();
+
+                        //copy music choices file
+                        File musicChoicesFile = new File("musicChoices.txt");
+                        File chosenMusicFile = new File("chosenMusic.txt");
+                        Files.copy(musicChoicesFile.toPath(), chosenMusicFile.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
+
                         OldFileCleaner oldFileCleaner = new OldFileCleaner();
                         oldFileCleaner.cleanFiles();
                         JOptionPane.showMessageDialog(this, "Mod successfully generated!");

@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
 
 public class SonicManiaMusicModGeneratorUI extends JFrame implements ActionListener {
@@ -110,6 +112,12 @@ public class SonicManiaMusicModGeneratorUI extends JFrame implements ActionListe
                 try {
                     if (generateFolder) {
                         modFolderGenerator.generateModFolder();
+
+                        //copy music choices file
+                        File musicChoicesFile = new File("musicChoices.txt");
+                        File chosenMusicFile = new File("chosenMusic.txt");
+                        Files.copy(musicChoicesFile.toPath(), chosenMusicFile.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
+
                         OldFileCleaner oldFileCleaner = new OldFileCleaner();
                         oldFileCleaner.cleanFiles();
                         JOptionPane.showMessageDialog(this, "Mod successfully generated!");

@@ -1,6 +1,6 @@
 package gamechooserui;
 
-import sonic1and2.ui.MusicModGeneratorUI;
+import sonic1and2.ui.Sonic1And2MusicModGeneratorUI;
 import sonic3.ui.Sonic3AIRMusicModGeneratorUI;
 import soniccd.ui.SonicCDMusicModGeneratorUI;
 import sonicmania.ui.SonicManiaMusicModGeneratorUI;
@@ -64,18 +64,18 @@ public class GameChooserUI extends JFrame implements ActionListener {
 
         if (e.getSource() == sonic1) {
             setVisible(false);
-            MusicModGeneratorUI musicModGeneratorUI = new MusicModGeneratorUI(true);
-            musicModGeneratorUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            musicModGeneratorUI.pack();
-            musicModGeneratorUI.setVisible(true);
+            Sonic1And2MusicModGeneratorUI sonic1And2MusicModGeneratorUI = new Sonic1And2MusicModGeneratorUI(true);
+            sonic1And2MusicModGeneratorUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            sonic1And2MusicModGeneratorUI.pack();
+            sonic1And2MusicModGeneratorUI.setVisible(true);
         }
 
         if (e.getSource() == sonic2) {
             setVisible(false);
-            MusicModGeneratorUI musicModGeneratorUI = new MusicModGeneratorUI(false);
-            musicModGeneratorUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            musicModGeneratorUI.pack();
-            musicModGeneratorUI.setVisible(true);
+            Sonic1And2MusicModGeneratorUI sonic1And2MusicModGeneratorUI = new Sonic1And2MusicModGeneratorUI(false);
+            sonic1And2MusicModGeneratorUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            sonic1And2MusicModGeneratorUI.pack();
+            sonic1And2MusicModGeneratorUI.setVisible(true);
         }
 
         if (e.getSource() == sonic3) {
