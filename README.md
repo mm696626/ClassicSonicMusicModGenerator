@@ -26,7 +26,7 @@
 * As far as I know, for Sonic CD and Sonic Mania, the FMV cutscenes can't have their music replaced since the music is within the video file itself
 
 ### Note about this tool
-* This tool is a combination of 3 other GitHub projects I've done with the addition of Sonic Mania and additional tweaks
+* This tool is a combination of 3 other GitHub projects I've done with the addition of Sonic Mania support and additional tweaks
 * If you'd like to see them individually here are the links
   * Link to Sonic 1 Forever and Sonic 2 Absolute Music Mod Generator: https://github.com/mm696626/S1ForeverS2AbsoluteMusicModGenerator
   * Link to Sonic CD Music Mod Generator: https://github.com/mm696626/SonicCDMusicModGenerator
