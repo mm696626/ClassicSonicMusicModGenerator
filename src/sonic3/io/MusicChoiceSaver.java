@@ -86,7 +86,7 @@ public class MusicChoiceSaver {
         Scanner inputStream = null;
 
         try {
-            inputStream = new Scanner (new FileInputStream("musicIDS.txt"));
+            inputStream = new Scanner (new FileInputStream("s3musicIDS.txt"));
         }
         catch (FileNotFoundException e)
         {
