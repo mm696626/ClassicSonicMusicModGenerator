@@ -17,7 +17,7 @@ public class ModINICustomizerUI extends JFrame implements ActionListener {
 
     public ModINICustomizerUI()
     {
-        setTitle("Mod JSON Customizer");
+        setTitle("Mod INI Customizer");
         generateUI();
     }
 

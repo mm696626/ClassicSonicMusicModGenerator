@@ -1,5 +1,6 @@
 package sonicmania.ui;
 
+import gamechooserui.GameChooserUI;
 import sonicmania.io.ModFolderGenerator;
 import sonicmania.io.OldFileCleaner;
 
@@ -19,7 +20,7 @@ public class SonicManiaMusicModGeneratorUI extends JFrame implements ActionListe
 
     //where to grab ogg files from
     private String audioFolderPath = "";
-    private JButton generateModINI, generateModFolder, pickMusic;
+    private JButton generateModINI, generateModFolder, pickMusic, back;
     GridBagConstraints gridBagConstraints = null;
 
     public SonicManiaMusicModGeneratorUI()
@@ -35,14 +36,21 @@ public class SonicManiaMusicModGeneratorUI extends JFrame implements ActionListe
         generateModFolder = new JButton("Generate Mod Folder");
         generateModFolder.addActionListener(this);
 
+        back = new JButton("Go Back to Game Selection");
+        back.addActionListener(this);
+
         setLayout(new GridBagLayout());
         gridBagConstraints = new GridBagConstraints();
 
         gridBagConstraints.gridx=0;
         gridBagConstraints.gridy=0;
-        add(pickMusic, gridBagConstraints);
+        add(back, gridBagConstraints);
 
         gridBagConstraints.gridx=1;
+        gridBagConstraints.gridy=0;
+        add(pickMusic, gridBagConstraints);
+
+        gridBagConstraints.gridx=2;
         gridBagConstraints.gridy=0;
         add(generateModINI, gridBagConstraints);
 
@@ -129,6 +137,16 @@ public class SonicManiaMusicModGeneratorUI extends JFrame implements ActionListe
             else {
                 JOptionPane.showMessageDialog(this, "You haven't picked music or generated a mod json file!");
             }
+        }
+
+        if (e.getSource() == back) {
+            setVisible(false);
+            OldFileCleaner oldFileCleaner = new OldFileCleaner();
+            oldFileCleaner.cleanFiles();
+            GameChooserUI gameChooserUI = new GameChooserUI();
+            gameChooserUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            gameChooserUI.pack();
+            gameChooserUI.setVisible(true);
         }
     }
 

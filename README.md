@@ -5,7 +5,6 @@
     * Link to Sonic 1 Forever: https://teamforeveronline.wixsite.com/home/sonic-1-forever
     * Link to Sonic 2 Absolute: https://teamforeveronline.wixsite.com/home/sonic-2-absolute
     * Link to Sonic CD Decompilation: https://github.com/Rubberduckycooly/Sonic-CD-11-Decompilation
-      * You can also use the Steam version for mods as well (it's delisted unfortunately)
     * Link to Sonic 3 AIR: https://sonic3air.org/
     * Link to Sonic Mania: https://store.steampowered.com/app/584400/Sonic_Mania/
 

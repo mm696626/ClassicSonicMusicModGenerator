@@ -1,5 +1,6 @@
 package sonic1and2.ui;
 
+import gamechooserui.GameChooserUI;
 import sonic1and2.io.ModFolderGenerator;
 import sonic1and2.io.OldFileCleaner;
 
@@ -19,7 +20,7 @@ public class Sonic1And2MusicModGeneratorUI extends JFrame implements ActionListe
 
     //where to grab ogg files from
     private String audioFolderPath = "";
-    private JButton generateModINI, generateModFolder, pickMusic;
+    private JButton generateModINI, generateModFolder, pickMusic, back;
     private boolean isSonic1 = false;
     GridBagConstraints gridBagConstraints = null;
 
@@ -43,14 +44,22 @@ public class Sonic1And2MusicModGeneratorUI extends JFrame implements ActionListe
         generateModFolder = new JButton("Generate Mod Folder");
         generateModFolder.addActionListener(this);
 
+        back = new JButton("Go Back to Game Selection");
+        back.addActionListener(this);
+
         setLayout(new GridBagLayout());
         gridBagConstraints = new GridBagConstraints();
 
+
         gridBagConstraints.gridx=0;
+        gridBagConstraints.gridy=0;
+        add(back, gridBagConstraints);
+
+        gridBagConstraints.gridx=1;
         gridBagConstraints.gridy=0;
         add(pickMusic, gridBagConstraints);
 
-        gridBagConstraints.gridx=1;
+        gridBagConstraints.gridx=2;
         gridBagConstraints.gridy=0;
         add(generateModINI, gridBagConstraints);
 
@@ -137,6 +146,16 @@ public class Sonic1And2MusicModGeneratorUI extends JFrame implements ActionListe
             else {
                 JOptionPane.showMessageDialog(this, "You haven't picked music or generated a mod json file!");
             }
+        }
+
+        if (e.getSource() == back) {
+            setVisible(false);
+            OldFileCleaner oldFileCleaner = new OldFileCleaner();
+            oldFileCleaner.cleanFiles();
+            GameChooserUI gameChooserUI = new GameChooserUI();
+            gameChooserUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            gameChooserUI.pack();
+            gameChooserUI.setVisible(true);
         }
     }
 

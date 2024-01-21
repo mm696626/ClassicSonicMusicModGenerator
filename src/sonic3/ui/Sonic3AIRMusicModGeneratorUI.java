@@ -1,5 +1,6 @@
 package sonic3.ui;
 
+import gamechooserui.GameChooserUI;
 import sonic3.io.ModFolderGenerator;
 import sonic3.io.OldFileCleaner;
 
@@ -19,7 +20,7 @@ public class Sonic3AIRMusicModGeneratorUI extends JFrame implements ActionListen
 
     //where to grab ogg files from
     private String audioFolderPath = "";
-    private JButton generateModJSON, generateModFolder, pickMusic;
+    private JButton generateModJSON, generateModFolder, pickMusic, back;
     GridBagConstraints gridBagConstraints = null;
 
     public Sonic3AIRMusicModGeneratorUI()
@@ -35,14 +36,21 @@ public class Sonic3AIRMusicModGeneratorUI extends JFrame implements ActionListen
         generateModFolder = new JButton("Generate Mod Folder");
         generateModFolder.addActionListener(this);
 
+        back = new JButton("Go Back to Game Selection");
+        back.addActionListener(this);
+
         setLayout(new GridBagLayout());
         gridBagConstraints = new GridBagConstraints();
 
         gridBagConstraints.gridx=0;
         gridBagConstraints.gridy=0;
-        add(pickMusic, gridBagConstraints);
+        add(back, gridBagConstraints);
 
         gridBagConstraints.gridx=1;
+        gridBagConstraints.gridy=0;
+        add(pickMusic, gridBagConstraints);
+
+        gridBagConstraints.gridx=2;
         gridBagConstraints.gridy=0;
         add(generateModJSON, gridBagConstraints);
 
@@ -129,6 +137,16 @@ public class Sonic3AIRMusicModGeneratorUI extends JFrame implements ActionListen
             else {
                 JOptionPane.showMessageDialog(this, "You haven't picked music or generated a mod json file!");
             }
+        }
+
+        if (e.getSource() == back) {
+            setVisible(false);
+            OldFileCleaner oldFileCleaner = new OldFileCleaner();
+            oldFileCleaner.cleanFiles();
+            GameChooserUI gameChooserUI = new GameChooserUI();
+            gameChooserUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            gameChooserUI.pack();
+            gameChooserUI.setVisible(true);
         }
     }
 
