@@ -24,7 +24,7 @@
 ### Limitations
 * The loop points are not automated (will just replay the audio file on loop)
 * No adding slots to the game as this tool will just generate a mod to replace songs
-* For Sonic CD, the FMV cutscenes can't have their music replaced since the music is within the video file itself
+* For Sonic CD and Sonic Mania, the FMV cutscenes can't have their music replaced since the music is within the video file itself
 
 ### Note about this tool
 * This tool is a combination of 3 other GitHub projects I've done, so if you'd like to see them individually here are the links
