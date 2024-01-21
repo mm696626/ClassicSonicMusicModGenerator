@@ -30,6 +30,9 @@ public class MusicChoiceSaver {
                 outputStream.println(getTrackFileName(musicNames.get(i)) + " DONTCHANGE");
             }
             else {
+                if (musicNames.get(i).equals("Blue Spheres")) {
+                    outputStream.println("BlueSpheresSPD " + audioFileNames[musicTrackPickers[i].getSelectedIndex() - 1]);
+                }
                 outputStream.println(getTrackFileName(musicNames.get(i)) + " " + audioFileNames[musicTrackPickers[i].getSelectedIndex() - 1]);
             }
         }
@@ -65,9 +68,9 @@ public class MusicChoiceSaver {
                     duplicates = new ArrayList<>();
                 }
             }
-            //If the user wants music replaced, and it has a fast variant add it to the choices file
-            if (musicNames.get(i).contains(" (has fast variant)")) {
-                outputStream.println(getTrackFileName(musicNames.get(i)) + "_F " + audioFileNames[randNum]);
+
+            if (musicNames.get(i).equals("Blue Spheres")) {
+                outputStream.println("BlueSpheresSPD " + audioFileNames[randNum]);
             }
             outputStream.println(getTrackFileName(musicNames.get(i)) + " " + audioFileNames[randNum]);
         }
