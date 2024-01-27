@@ -26,15 +26,17 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
     private String[] audioFileNames;
     private ArrayList<File> audioFiles;
     private boolean isSonic1;
+    private boolean perActMusic;
     private Container container;
 
 
-    public MusicOptionsPickerUI(String audioFolderPath, boolean isSonic1)
+    public MusicOptionsPickerUI(String audioFolderPath, boolean isSonic1, boolean perActMusic)
     {
         this.audioFolderPath = audioFolderPath;
         this.isSonic1 = isSonic1;
+        this.perActMusic = perActMusic;
         MusicNameLoader musicNameLoader = new MusicNameLoader();
-        this.musicNames =  musicNameLoader.getMusicNamesFromIDSFile(isSonic1);
+        this.musicNames =  musicNameLoader.getMusicNamesFromIDSFile(isSonic1, perActMusic);
         this.musicTrackCount = musicNames.size();
         this.musicTrackNameLabels = new JLabel[musicTrackCount];
         this.musicTrackPickers = new JComboBox[musicTrackCount];
@@ -48,13 +50,13 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == saveMusicChoices) {
-            MusicChoiceSaver musicChoiceSaver = new MusicChoiceSaver(isSonic1);
+            MusicChoiceSaver musicChoiceSaver = new MusicChoiceSaver(isSonic1, perActMusic);
             musicChoiceSaver.saveMusicChoicesToMusicChoicesFile(musicNames, musicTrackPickers, audioFileNames);
             setVisible(false);
         }
 
         if (e.getSource() == randomizeMusicChoices) {
-            MusicChoiceSaver musicChoiceSaver = new MusicChoiceSaver(isSonic1);
+            MusicChoiceSaver musicChoiceSaver = new MusicChoiceSaver(isSonic1, perActMusic);
 
             boolean removeDuplicates = false;
             boolean canceledDialog = false;

@@ -12,9 +12,11 @@ import java.util.Scanner;
 public class MusicChoiceSaver {
 
     private boolean isSonic1;
+    private boolean perActMusic;
 
-    public MusicChoiceSaver(boolean isSonic1) {
+    public MusicChoiceSaver(boolean isSonic1, boolean perActMusic) {
         this.isSonic1 = isSonic1;
+        this.perActMusic = perActMusic;
     }
 
     public void saveMusicChoicesToMusicChoicesFile(ArrayList<String> musicNames, JComboBox[] musicTrackPickers, String[] audioFileNames)
@@ -99,14 +101,7 @@ public class MusicChoiceSaver {
         //Gets the appropriate ogg file name for the track
         Scanner inputStream = null;
 
-        String fileNameToLoadFrom = "";
-
-        if (isSonic1) {
-            fileNameToLoadFrom = "s1MusicIDS.txt";
-        }
-        else {
-            fileNameToLoadFrom = "s2MusicIDS.txt";
-        }
+        String fileNameToLoadFrom = getFileNameToLoadFrom(isSonic1, perActMusic);
 
         try {
             inputStream = new Scanner (new FileInputStream(fileNameToLoadFrom));
@@ -130,5 +125,23 @@ public class MusicChoiceSaver {
 
         inputStream.close();
         return trackID;
+    }
+
+    private String getFileNameToLoadFrom(boolean isSonic1, boolean perActMusic) {
+        String fileNameToLoadFrom;
+
+        if (isSonic1 && !perActMusic) {
+            fileNameToLoadFrom = "s1MusicIDS.txt";
+        }
+        else if (isSonic1 && perActMusic) {
+            fileNameToLoadFrom = "s1PerActMusicIDS.txt";
+        }
+        else if (!isSonic1 && !perActMusic) {
+            fileNameToLoadFrom = "s2MusicIDS.txt";
+        }
+        else {
+            fileNameToLoadFrom = "s2PerActMusicIDS.txt";
+        }
+        return fileNameToLoadFrom;
     }
 }

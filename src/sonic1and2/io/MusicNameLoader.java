@@ -7,18 +7,13 @@ import java.util.Scanner;
 
 public class MusicNameLoader {
 
-    public ArrayList<String> getMusicNamesFromIDSFile(boolean isSonic1) {
+    public ArrayList<String> getMusicNamesFromIDSFile(boolean isSonic1, boolean perActMusic) {
         ArrayList<String> musicNames = new ArrayList<>();
         Scanner inputStream = null;
 
         String fileNameToLoadFrom = "";
 
-        if (isSonic1) {
-            fileNameToLoadFrom = "s1MusicIDS.txt";
-        }
-        else {
-            fileNameToLoadFrom = "s2MusicIDS.txt";
-        }
+        fileNameToLoadFrom = getFileNameToLoadFrom(isSonic1, perActMusic);
 
         try {
             inputStream = new Scanner (new FileInputStream(fileNameToLoadFrom));
@@ -38,5 +33,23 @@ public class MusicNameLoader {
 
         inputStream.close();
         return musicNames;
+    }
+
+    private String getFileNameToLoadFrom(boolean isSonic1, boolean perActMusic) {
+        String fileNameToLoadFrom;
+
+        if (isSonic1 && !perActMusic) {
+            fileNameToLoadFrom = "s1MusicIDS.txt";
+        }
+        else if (isSonic1 && perActMusic) {
+            fileNameToLoadFrom = "s1PerActMusicIDS.txt";
+        }
+        else if (!isSonic1 && !perActMusic) {
+            fileNameToLoadFrom = "s2MusicIDS.txt";
+        }
+        else {
+            fileNameToLoadFrom = "s2PerActMusicIDS.txt";
+        }
+        return fileNameToLoadFrom;
     }
 }

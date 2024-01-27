@@ -1,5 +1,7 @@
 package sonic1and2.io;
 
+import sonic1and2.validation.ExtensionValidator;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,7 +13,7 @@ import java.util.Scanner;
 
 public class ModFolderGenerator {
 
-    public void generateModFolder() throws IOException {
+    public void generateModFolder(boolean isSonic1, boolean perActMusic) throws IOException {
 
         ArrayList<File> files = getFilePathsFromFile();
 
@@ -33,12 +35,46 @@ public class ModFolderGenerator {
             File copiedModJSON = new File(copiedModJSONPath);
             Files.copy(modJSON.toPath(), copiedModJSON.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
 
+
+            //copy scripts if per act music was chosen
+            if (perActMusic) {
+                String scriptsFolderPath = createScriptsFolder(modFolderPath, filePathSeparator);
+
+                if (scriptsFolderPath != null) {
+                    copyScriptsToScriptsFolder(isSonic1, scriptsFolderPath);
+                }
+            }
+
             String audioFolderPath = modFolderPath + filePathSeparator + "Data" + filePathSeparator + "Music";
 
             File audioFolder = new File(audioFolderPath);
             if (audioFolder.mkdirs()) {
                 copyAudioFiles(files, audioFolder.getAbsolutePath() + filePathSeparator, musicChoices);
             }
+        }
+    }
+
+    private String createScriptsFolder(String modFolderPath, String filePathSeparator) {
+        String scriptsFolderPath = modFolderPath + filePathSeparator + "Scripts";
+        File scriptsFolder = new File(scriptsFolderPath);
+        if (scriptsFolder.mkdirs()) {
+            return scriptsFolderPath;
+        }
+
+        return null;
+    }
+
+    private void copyScriptsToScriptsFolder(boolean isSonic1, String scriptsFolderPath) throws IOException {
+        File scriptFolder = new File(getPathOfScriptFolder(isSonic1));
+        ArrayList<File> scriptFiles = getScriptFileList(scriptFolder.getAbsolutePath());
+
+        for (int i=0; i< scriptFiles.size(); i++) {
+            String scriptFilePath = scriptFiles.get(i).getAbsolutePath();
+            String destinationScriptPath = getDestinationPath(scriptFilePath, scriptsFolderPath, isSonic1);
+
+            String copiedScriptFilePath = destinationScriptPath;
+            File copiedScriptFile = new File(copiedScriptFilePath);
+            Files.copy(scriptFiles.get(i).toPath(), copiedScriptFile.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
         }
     }
 
@@ -131,5 +167,99 @@ public class ModFolderGenerator {
                 Files.copy(files.get(i).toPath(), copiedAudioFile.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
             }
         }
+    }
+
+    private ArrayList<File> getScriptFileList(String scriptFolderPath) {
+
+        File[] scriptFolderFileList = new File(scriptFolderPath).listFiles();
+        ExtensionValidator extensionValidator = new ExtensionValidator();
+
+        ArrayList<File> scriptFileList = new ArrayList<>();
+
+        //Grab all script files and check subfolders if the file is a directory
+        for (File file: scriptFolderFileList) {
+            String fileName = file.getName();
+            if (extensionValidator.isScriptFileExtensionValid(fileName) && !file.isDirectory()) {
+                scriptFileList.add(file);
+            }
+            else if (file.isDirectory()) {
+                scriptFileList.addAll(getScriptFileList(file.getAbsolutePath()));
+            }
+        }
+
+        return scriptFileList;
+    }
+
+    private String getPathOfScriptFolder(boolean isSonic1) {
+        String baseDir = getModBaseDir();
+
+        if (isSonic1) {
+            return baseDir + "s1Scripts";
+        }
+        else  {
+            return baseDir + "s2Scripts";
+        }
+    }
+
+    private String getDestinationPath(String scriptFilePath, String modFolderScriptsPath, boolean isSonic1) {
+        String[] sonic1Scripts = {"GHZ", "MZ", "SYZ", "LZ", "SLZ", "SBZ"};
+        String[] sonic2Scripts = {"EHZ", "CPZ", "ARZ", "CNZ", "HTZ", "MCZ", "OOZ", "MPZ"};
+        String destinationPath;
+
+        String modBaseDir = getModBaseDir();
+        String filePathSeparator = modBaseDir.substring(modBaseDir.length()-1);
+
+        int numScripts = 0;
+
+        if (isSonic1) {
+            numScripts = sonic1Scripts.length;
+        }
+
+        else {
+            numScripts = sonic2Scripts.length;
+        }
+
+        for (int i=0; i<numScripts; i++) {
+
+            if (isSonic1) {
+
+                String s1ScriptsPath = scriptFilePath.substring(scriptFilePath.indexOf("s1Scripts"));
+                s1ScriptsPath = s1ScriptsPath.substring(s1ScriptsPath.indexOf(filePathSeparator) + 1, s1ScriptsPath.lastIndexOf(filePathSeparator));
+
+                if (s1ScriptsPath.equals(sonic1Scripts[i])) {
+                    destinationPath = modFolderScriptsPath + scriptFilePath.substring(scriptFilePath.indexOf(sonic1Scripts[i]) - 1);
+
+                    String scriptDestinationFolder = modFolderScriptsPath + filePathSeparator + sonic1Scripts[i];
+                    File destinationFolder = new File(scriptDestinationFolder);
+
+                    if (!destinationFolder.exists()) {
+                        destinationFolder.mkdirs();
+                    }
+
+                    return destinationPath;
+                }
+            }
+
+            else {
+
+                String s2ScriptsPath = scriptFilePath.substring(scriptFilePath.indexOf("s2Scripts"));
+                s2ScriptsPath = s2ScriptsPath.substring(s2ScriptsPath.indexOf(filePathSeparator) + 1, s2ScriptsPath.lastIndexOf(filePathSeparator));
+
+                if (s2ScriptsPath.equals(sonic2Scripts[i])) {
+                    destinationPath = modFolderScriptsPath + scriptFilePath.substring(scriptFilePath.indexOf(sonic2Scripts[i]) - 1);
+
+                    String scriptDestinationFolder = modFolderScriptsPath + filePathSeparator + sonic2Scripts[i];
+                    File destinationFolder = new File(scriptDestinationFolder);
+
+                    if (!destinationFolder.exists()) {
+                        destinationFolder.mkdirs();
+                    }
+
+                    return destinationPath;
+                }
+            }
+        }
+
+        return null;
     }
 }

@@ -22,6 +22,7 @@ public class Sonic1And2MusicModGeneratorUI extends JFrame implements ActionListe
     private String audioFolderPath = "";
     private JButton generateModINI, generateModFolder, pickMusic, back;
     private boolean isSonic1 = false;
+    private boolean perActMusic = false;
     GridBagConstraints gridBagConstraints = null;
 
     public Sonic1And2MusicModGeneratorUI(boolean isSonic1)
@@ -81,7 +82,16 @@ public class Sonic1And2MusicModGeneratorUI extends JFrame implements ActionListe
                 return;
             }
 
-            MusicOptionsPickerUI musicOptionsPickerUI = new MusicOptionsPickerUI(audioFolderPath, isSonic1);
+            //prompt for per act music
+            int overwriteModFolderDialogResult = JOptionPane.showConfirmDialog(this, "Would you like to have per act music?");
+            if (overwriteModFolderDialogResult == JOptionPane.YES_OPTION){
+                perActMusic = true;
+            }
+            else {
+                perActMusic = false;
+            }
+
+            MusicOptionsPickerUI musicOptionsPickerUI = new MusicOptionsPickerUI(audioFolderPath, isSonic1, perActMusic);
             musicOptionsPickerUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
             musicOptionsPickerUI.pack();
 
@@ -128,7 +138,7 @@ public class Sonic1And2MusicModGeneratorUI extends JFrame implements ActionListe
 
                 try {
                     if (generateFolder) {
-                        modFolderGenerator.generateModFolder();
+                        modFolderGenerator.generateModFolder(isSonic1, perActMusic);
 
                         //copy music choices file
                         File musicChoicesFile = new File("musicChoices.txt");
