@@ -5,7 +5,9 @@ import sonic1and2.validation.ExtensionValidator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -42,6 +44,9 @@ public class ModFolderGenerator {
 
                 if (scriptsFolderPath != null) {
                     copyScriptsToScriptsFolder(isSonic1, scriptsFolderPath);
+
+                    String modScriptFolderPath = modFolderPath + filePathSeparator + "Scripts";
+                    modifyScriptsInScriptsFolder(modScriptFolderPath, isSonic1);
                 }
             }
 
@@ -76,6 +81,171 @@ public class ModFolderGenerator {
             File copiedScriptFile = new File(copiedScriptFilePath);
             Files.copy(scriptFiles.get(i).toPath(), copiedScriptFile.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
         }
+    }
+
+    private void modifyScriptsInScriptsFolder(String scriptsFolderPath, boolean isSonic1) {
+        File scriptFolder = new File(scriptsFolderPath);
+        ArrayList<File> scriptFiles = getScriptFileList(scriptFolder.getAbsolutePath());
+
+        for (int i=0; i<scriptFiles.size(); i++) {
+            String zoneName = scriptFiles.get(i).getName();
+            zoneName = zoneName.substring(0, zoneName.indexOf("Setup.txt"));
+
+            ArrayList<String> scriptFileData = getScriptFileData(scriptFiles.get(i));
+            modifyScriptFile(scriptFileData, scriptFiles.get(i), isSonic1, zoneName);
+        }
+    }
+
+    private ArrayList<String> getScriptFileData(File scriptFile) {
+        ArrayList<String> fileData = new ArrayList<>();
+
+        Scanner inputStream = null;
+
+        try {
+            inputStream = new Scanner (new FileInputStream(scriptFile.getAbsolutePath()));
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("Mod JSON File does not exist");
+            return null;
+        }
+
+        while (inputStream.hasNextLine()) {
+            fileData.add(inputStream.nextLine());
+        }
+
+        inputStream.close();
+        return fileData;
+    }
+
+    private void modifyScriptFile(ArrayList<String> fileData, File scriptFile, boolean isSonic1, String zoneName) {
+
+        PrintWriter outputStream = null;
+
+        try {
+            outputStream = new PrintWriter( new FileOutputStream(scriptFile.getAbsolutePath()));
+        }
+        catch (FileNotFoundException f) {
+            System.out.println("File does not exist");
+            System.exit(0);
+        }
+
+        for (int i=0; i<fileData.size(); i++) {
+            String line = fileData.get(i);
+            if (line.contains("SetMusicTrack(") || line.contains("SwapMusicTrack(")) {
+                String musicTrackName = line.substring(line.indexOf("\"")+1, line.lastIndexOf("\""));
+                musicTrackName = musicTrackName.substring(0, musicTrackName.indexOf("."));
+
+                if (isActMusic(isSonic1, musicTrackName)) {
+                    String newLine;
+                    String musicChoice = getMusicChoiceForScript(musicTrackName);
+                    if (musicChoice.equals("DONTCHANGE")) {
+
+                        String zoneReplacement = getZoneReplacement(zoneName, isSonic1);
+                        if (musicTrackName.endsWith("_F")) {
+                            zoneReplacement = zoneReplacement + "_F";
+                        }
+                        newLine = line.replace(musicTrackName, zoneReplacement);
+                        outputStream.println(newLine);
+                    }
+                    else {
+                        outputStream.println(fileData.get(i));
+                    }
+                }
+                else {
+                    outputStream.println(fileData.get(i));
+                }
+            }
+            else {
+                outputStream.println(fileData.get(i));
+            }
+        }
+
+        outputStream.close();
+    }
+
+    private String getZoneReplacement(String zoneName, boolean isSonic1) {
+        String[] sonic1ZoneNames = {"GHZ", "MZ", "SYZ", "LZ", "SLZ", "SBZ"};
+        String[] sonic2ZoneNames = {"EHZ", "CPZ", "ARZ", "CNZ", "HTZ", "MCZ", "OOZ", "MPZ"};
+
+        String[] sonic1Zones = {"GreenHill", "Marble", "SpringYard", "Labyrinth", "StarLight", "ScrapBrain"};
+        String[] sonic2Zones = {"EmeraldHill", "ChemicalPlant", "AquaticRuin", "CasinoNight", "HillTop", "MysticCave", "OilOcean", "Metropolis"};
+
+        int numZones = 0;
+
+        if (isSonic1) {
+            numZones = sonic1Zones.length;
+        }
+
+        else {
+            numZones = sonic2Zones.length;
+        }
+
+        for (int i=0; i<numZones; i++) {
+            if (isSonic1) {
+                if (zoneName.equals(sonic1ZoneNames[i])) {
+                    return sonic1Zones[i];
+                }
+            }
+
+            else {
+                if (zoneName.equals(sonic2ZoneNames[i])) {
+                    return sonic2Zones[i];
+                }
+            }
+        }
+
+        return "";
+    }
+
+    private String getMusicChoiceForScript(String musicTrackName) {
+        MusicChoiceLoader musicChoiceLoader = new MusicChoiceLoader();
+        ArrayList<String> musicChoices = musicChoiceLoader.getMusicChoicesFromFile();
+
+        for (int i=0; i<musicChoices.size(); i++) {
+            String musicTrack = musicChoices.get(i).split(" ")[0];
+            String musicChoice = musicChoices.get(i).split(" ")[1];
+
+            if (musicTrack.equals(musicTrackName)) {
+                return musicChoice;
+            }
+        }
+        return "DONTCHANGE";
+    }
+
+    private boolean isActMusic(boolean isSonic1, String musicTrackName) {
+        String[] sonic1Acts = {"GHZA1", "GHZA2", "GHZA3", "MZA1", "MZA2", "MZA3", "SYZA1", "SYZA2", "SYZA3", "LZA1", "LZA2", "LZA3"
+        , "SLZA1", "SLZA2", "SLZA3", "SBZA1", "SBZA2", "SBZA3"};
+
+        String[] sonic2Acts = {"EmeraldHillA1", "EmeraldHillA2", "ChemicalPlantA1", "ChemicalPlantA2"
+        , "AquaticRuinA1", "AquaticRuinA2", "CasinoNightA1", "CasinoNightA2", "HillTopA1", "HillTopA2", "MysticCaveA1", "MysticCaveA2"
+        , "OilOceanA1", "OilOceanA2", "MetropolisA1", "MetropolisA2", "MetropolisA3"};
+
+        int numActs = 0;
+
+        if (isSonic1) {
+            numActs = sonic1Acts.length;
+        }
+
+        else {
+            numActs = sonic2Acts.length;
+        }
+
+        for (int i=0; i<numActs; i++) {
+            if (isSonic1) {
+                if (musicTrackName.contains(sonic1Acts[i])) {
+                    return true;
+                }
+            }
+
+            else {
+                if (musicTrackName.contains(sonic2Acts[i])) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private String getModBaseDir() {
