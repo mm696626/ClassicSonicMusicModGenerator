@@ -87,7 +87,8 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
                 || e.getSource() == saveMusicChoicesButtons.get(2)
                 || e.getSource() == saveMusicChoicesButtons.get(3)
                 || e.getSource() == saveMusicChoicesButtons.get(4)
-                || e.getSource() == saveMusicChoicesButtons.get(5);
+                || e.getSource() == saveMusicChoicesButtons.get(5)
+                || e.getSource() == saveMusicChoicesButtons.get(6);
     }
 
     private boolean checkIfRandomizeButtonWasPressed(ActionEvent e) {
@@ -96,18 +97,20 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
                 || e.getSource() == randomizeMusicChoicesButtons.get(2)
                 || e.getSource() == randomizeMusicChoicesButtons.get(3)
                 || e.getSource() == randomizeMusicChoicesButtons.get(4)
-                || e.getSource() == randomizeMusicChoicesButtons.get(5);
+                || e.getSource() == randomizeMusicChoicesButtons.get(5)
+                || e.getSource() == randomizeMusicChoicesButtons.get(6);
     }
 
     private void generateUI() {
 
-        int[] numRows = new int[6];
+        int[] numRows = new int[7];
         numRows[0] = getNumRowsForJPanel("Act 1 Boss");
         numRows[1] = getNumRowsForJPanel("Title");
         numRows[2] = getNumRowsForJPanel("Competition Menu");
         numRows[3] = getNumRowsForJPanel("Bonus Stage: Magnetic Orbs");
-        numRows[4] = getNumRowsForJPanel("Game Over");
-        numRows[5] = getNumRowsForJPanel("Drowning") + 1;
+        numRows[4] = getNumRowsForJPanel("Knuckles' Theme (Sonic & Knuckles)");
+        numRows[5] = getNumRowsForJPanel("Game Over");
+        numRows[6] = getNumRowsForJPanel("Drowning") + 1;
 
         JPanel zonePanel = new JPanel();
         GridLayout zoneGridLayout = new GridLayout(numRows[0] + 1, 2);
@@ -129,8 +132,12 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
         GridLayout miscGridLayout = new GridLayout((numRows[4] - numRows[3]) + 1,2);
         miscPanel.setLayout(miscGridLayout);
 
+        JPanel themeVariantsPanel = new JPanel();
+        GridLayout themeVariantsLayout = new GridLayout((numRows[5] - numRows[4]) + 1,2);
+        themeVariantsPanel.setLayout(themeVariantsLayout);
+
         JPanel jinglesPanel = new JPanel();
-        GridLayout jinglesGridLayout = new GridLayout((numRows[5] - numRows[4]) + 1,2);
+        GridLayout jinglesGridLayout = new GridLayout((numRows[6] - numRows[5]) + 1,2);
         jinglesPanel.setLayout(jinglesGridLayout);
 
         jPanels.add(zonePanel);
@@ -138,6 +145,7 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
         jPanels.add(menuEndingsPanel);
         jPanels.add(competitionPanel);
         jPanels.add(miscPanel);
+        jPanels.add(themeVariantsPanel);
         jPanels.add(jinglesPanel);
 
         //draw labels for the UI
@@ -192,8 +200,9 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
         tabbedPane.add("Boss Themes", jPanels.get(1));
         tabbedPane.add("Menu/Ending Themes", jPanels.get(2));
         tabbedPane.add("Competition Mode Themes", jPanels.get(3));
-        tabbedPane.add("Misc Themes/Theme Variants", jPanels.get(4));
-        tabbedPane.add("Super Themes/Jingles", jPanels.get(5));
+        tabbedPane.add("Misc Themes", jPanels.get(4));
+        tabbedPane.add("Theme Variants", jPanels.get(5));
+        tabbedPane.add("Super Themes/Jingles", jPanels.get(6));
         add(tabbedPane);
     }
 
