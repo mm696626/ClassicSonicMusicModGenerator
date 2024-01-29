@@ -27,7 +27,6 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
     private ArrayList<JButton> randomizeMusicChoicesButtons = new ArrayList<>();
     private String[] audioFileNames;
     private ArrayList<File> audioFiles;
-    private Container container;
 
 
     public MusicOptionsPickerUI(String audioFolderPath)

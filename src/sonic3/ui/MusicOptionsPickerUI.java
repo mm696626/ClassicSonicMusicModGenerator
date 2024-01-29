@@ -103,7 +103,7 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
 
         int[] numRows = new int[6];
         numRows[0] = getNumRowsForJPanel("Act 1 Boss");
-        numRows[1] = getNumRowsForJPanel("Title (Sonic & Knuckles)");
+        numRows[1] = getNumRowsForJPanel("Title");
         numRows[2] = getNumRowsForJPanel("Competition Menu");
         numRows[3] = getNumRowsForJPanel("Bonus Stage: Magnetic Orbs");
         numRows[4] = getNumRowsForJPanel("Game Over");
@@ -192,7 +192,7 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
         tabbedPane.add("Boss Themes", jPanels.get(1));
         tabbedPane.add("Menu/Ending Themes", jPanels.get(2));
         tabbedPane.add("Competition Mode Themes", jPanels.get(3));
-        tabbedPane.add("Misc Themes", jPanels.get(4));
+        tabbedPane.add("Misc Themes/Theme Variants", jPanels.get(4));
         tabbedPane.add("Super Themes/Jingles", jPanels.get(5));
         add(tabbedPane);
     }
