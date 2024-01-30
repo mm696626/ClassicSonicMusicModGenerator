@@ -80,7 +80,8 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
                 || e.getSource() == saveMusicChoicesButtons.get(1)
                 || e.getSource() == saveMusicChoicesButtons.get(2)
                 || e.getSource() == saveMusicChoicesButtons.get(3)
-                || e.getSource() == saveMusicChoicesButtons.get(4);
+                || e.getSource() == saveMusicChoicesButtons.get(4)
+                || e.getSource() == saveMusicChoicesButtons.get(5);
     }
 
     private boolean checkIfRandomizeButtonWasPressed(ActionEvent e) {
@@ -88,17 +89,19 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
                 || e.getSource() == randomizeMusicChoicesButtons.get(1)
                 || e.getSource() == randomizeMusicChoicesButtons.get(2)
                 || e.getSource() == randomizeMusicChoicesButtons.get(3)
-                || e.getSource() == randomizeMusicChoicesButtons.get(4);
+                || e.getSource() == randomizeMusicChoicesButtons.get(4)
+                || e.getSource() == randomizeMusicChoicesButtons.get(5);
     }
 
     private void generateUI() {
 
-        int[] numRows = new int[5];
+        int[] numRows = new int[6];
         numRows[0] = getNumRowsForJPanel("Palmtree Panic Zone (Present) (US)");
-        numRows[1] = getNumRowsForJPanel("Boss");
-        numRows[2] = getNumRowsForJPanel("Title");
-        numRows[3] = getNumRowsForJPanel("Game Over");
-        numRows[4] = getNumRowsForJPanel("Act Clear (US)") + 1;
+        numRows[1] = getNumRowsForJPanel("Palmtree Panic Zone (Past)");
+        numRows[2] = getNumRowsForJPanel("Boss");
+        numRows[3] = getNumRowsForJPanel("Title");
+        numRows[4] = getNumRowsForJPanel("Game Over");
+        numRows[5] = getNumRowsForJPanel("Act Clear (US)") + 1;
 
         JPanel zoneJPPanel = new JPanel();
         GridLayout zoneJPGridLayout = new GridLayout(numRows[0] + 1, 2);
@@ -108,20 +111,25 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
         GridLayout zoneUSGridLayout = new GridLayout((numRows[1] - numRows[0]) + 1,2);
         zoneUSPanel.setLayout(zoneUSGridLayout);
 
+        JPanel zonePastPanel = new JPanel();
+        GridLayout zonePastGridLayout = new GridLayout((numRows[2] - numRows[1]) + 1,2);
+        zonePastPanel.setLayout(zonePastGridLayout);
+
         JPanel bossesPanel = new JPanel();
-        GridLayout bossesGridLayout = new GridLayout((numRows[2] - numRows[1]) + 1,2);
+        GridLayout bossesGridLayout = new GridLayout((numRows[3] - numRows[2]) + 1,2);
         bossesPanel.setLayout(bossesGridLayout);
 
         JPanel menusPanel = new JPanel();
-        GridLayout menusGridLayout = new GridLayout((numRows[3] - numRows[2]) + 1,2);
+        GridLayout menusGridLayout = new GridLayout((numRows[4] - numRows[3]) + 1,2);
         menusPanel.setLayout(menusGridLayout);
 
         JPanel jinglesPanel = new JPanel();
-        GridLayout jinglesGridLayout = new GridLayout((numRows[4] - numRows[3]) + 1,2);
+        GridLayout jinglesGridLayout = new GridLayout((numRows[5] - numRows[4]) + 1,2);
         jinglesPanel.setLayout(jinglesGridLayout);
 
         jPanels.add(zoneJPPanel);
         jPanels.add(zoneUSPanel);
+        jPanels.add(zonePastPanel);
         jPanels.add(bossesPanel);
         jPanels.add(menusPanel);
         jPanels.add(jinglesPanel);
@@ -174,11 +182,12 @@ public class MusicOptionsPickerUI extends JFrame implements ActionListener {
         }
 
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.add("Zone Themes (JP)/Past Themes", jPanels.get(0));
+        tabbedPane.add("Zone Themes (JP)", jPanels.get(0));
         tabbedPane.add("Zone Themes (US)", jPanels.get(1));
-        tabbedPane.add("Boss Themes", jPanels.get(2));
-        tabbedPane.add("Menu Themes", jPanels.get(3));
-        tabbedPane.add("Jingles", jPanels.get(4));
+        tabbedPane.add("Zone Themes (Past)", jPanels.get(2));
+        tabbedPane.add("Boss Themes", jPanels.get(3));
+        tabbedPane.add("Menu Themes", jPanels.get(4));
+        tabbedPane.add("Jingles", jPanels.get(5));
         add(tabbedPane);
     }
 
